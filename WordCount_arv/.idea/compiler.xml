@@ -9,8 +9,5 @@
         <module name="WordCount_arv" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="WordCount_arv" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
