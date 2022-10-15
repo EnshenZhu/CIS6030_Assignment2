@@ -48,7 +48,8 @@ You should correctly view up the version of Docker Desktop on your machine.
 #### III. Transfer the data and the java scripts (not JavaScript) into the Cluster
 
 1. <b>Copy the A1_data.txt file <em>(RECALL: Due to the assignment requirement, the A1_data.txt file is not inside the
-   submission folder. Please kindly attach the data file by yourself!)</em> and the Count_model folder to the cloned repo</b>
+   submission folder. Please kindly attach the data file by yourself!)</em> and the Count_model folder to the cloned
+   repo</b>
 2. In the terminal, enter ```docker exec -it namenode bash``` to get into the namenode bash terminal. A similar
    interface may look like follow
 
@@ -130,3 +131,9 @@ You should correctly view up the version of Docker Desktop on your machine.
    2022-10-15 01:19:08,211 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
    Total Numbers of String:        468820
    ```
+
+### Reference
+
+1. https://cjlise.github.io/hadoop-spark/Setup-Hadoop-Cluster/
+2. https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
+3. https://www.youtube.com/watch?v=dLTI2HN9Ejg&t=401s
