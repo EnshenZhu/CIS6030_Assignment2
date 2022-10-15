@@ -47,7 +47,8 @@ You should correctly view up the version of Docker Desktop on your machine.
 
 #### III. Transfer the data and the java scripts (not JavaScript) into the Cluster
 
-1. <b>Copy the A1_data.txt file and the Count_model folder to the cloned repo</b>
+1. <b>Copy the A1_data.txt file <em>(RECALL: Due to the assignment requirement, the A1_data.txt file is not inside the
+   submission folder. Please kindly attach the data file by yourself!)</em> and the Count_model folder to the cloned repo</b>
 2. In the terminal, enter ```docker exec -it namenode bash``` to get into the namenode bash terminal. A similar
    interface may look like follow
 
@@ -70,23 +71,27 @@ You should correctly view up the version of Docker Desktop on your machine.
    docker cp A1_data.txt namenode:/tmp
    ```
 
-IV. Sync the input data to the Hadoop HDFS
+##### IV. Sync the input data to the Hadoop HDFS
 
 1. Get into the namenode bash by  ```docker exec -it namenode bash```
 2. Get into the tmp folder by ```cd tmp```
 3. Create a hdfs directory named input by ```hadoop fs -mkdir -p input```
 4. Place the input files in all the datanodes on HDF by ```hdfs dfs -put ./input/* input```
 
-V. Counting the numbers of strings which has the length equal or more than 25
-1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review the <b>Part IV</b> first and second steps to re-enter into the namenode bash
+### Results
+
+#### I. Counting the numbers of strings which has the length equal or more than 25
+
+1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review
+   the <b>Part IV</b> first and second steps to re-enter into the namenode bash
 2. Run the WordCount_Q1 in the namenode by
 
    ```
-   hadoop jar WordCount_Q1 org.example.WordCount_Q1 input output
+   hadoop jar WordCount_Q1.jar org.example.WordCount_Q1 input output
    ```
-   
+
 3. When the terminal finish the work, enter ```hdfs dfs -cat output/part-r-00000``` to view the results
-4. The final results should look like as follow
+4. The final results should look like as follows
 
    ```
    root@56ab0ee74f48:/tmp# hdfs dfs -cat ./output/part-r-00000
@@ -108,3 +113,20 @@ V. Counting the numbers of strings which has the length equal or more than 25
    universityextracurricular       6
    ```
 
+#### II. Counting the numbers of strings which has the length equal or more than 25
+
+1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review
+   the <b>How To Use - Part IV</b> first and second steps to re-enter into the namenode bash
+2. Run the WordCount_Q1 in the namenode by
+
+   ```
+   hadoop jar WordCount_Q2.jar org.example.WordCount_Q2 input output2
+   ```
+
+3. When the terminal finish the work, enter ```hdfs dfs -cat output2/part-r-00000``` to view the results
+4. The final results should look like as follows
+   ```
+   root@56ab0ee74f48:/tmp# hdfs dfs -cat ./output2/part-r-00000
+   2022-10-15 01:19:08,211 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+   Total Numbers of String:        468820
+   ```
