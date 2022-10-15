@@ -1,63 +1,110 @@
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
+# <div style="text-align: center;">CIS6030 Information System</div>
 
-# Changes
+## <div style="text-align: center;">Assignment 2</div>
 
-Version 2.0.0 introduces uses wait_for_it script for the cluster startup
+## <div style="text-align: center;"> Enshen Zhu (1194726)</div>
 
-# Hadoop Docker
+****
 
-## Supported Hadoop Versions
-See repository branches for supported hadoop versions
+### General Background
 
-## Quick Start
+Since Hadoop is extremely hard to be properly installed and configed on the Windows OS. This assignment uses the Windows
+Docker Desktop to imply the Hadoop Cluster, as well as fulfilling multiple WordCount functions.
 
-To deploy an example HDFS cluster, run:
+### How To Use
+
+To imply the Hadoop Cluster on the Docker, we need to firstly install the Docker Desktop on the Windows, and then settle
+the Hadoop Cluster on the Docker.
+
+#### I. Install Docker Desktop
+
+Please kindly review this [official installation guidance](https://docs.docker.com/desktop/install/windows-install/)
+
+To verify the integrity of the Docker Desktop, please open the terminal and enter the following commands
+
 ```
-  docker-compose up
-```
-
-Run example wordcount job:
-```
-  make wordcount
-```
-
-Or deploy in swarm:
-```
-docker stack deploy -c docker-compose-v3.yml hadoop
-```
-
-`docker-compose` creates a docker network that can be found by running `docker network list`, e.g. `dockerhadoop_default`.
-
-Run `docker network inspect` on the network (e.g. `dockerhadoop_default`) to find the IP the hadoop interfaces are published on. Access these interfaces with the following URLs:
-
-* Namenode: http://<dockerhadoop_IP_address>:9870/dfshealth.html#tab-overview
-* History server: http://<dockerhadoop_IP_address>:8188/applicationhistory
-* Datanode: http://<dockerhadoop_IP_address>:9864/
-* Nodemanager: http://<dockerhadoop_IP_address>:8042/node
-* Resource manager: http://<dockerhadoop_IP_address>:8088/
-
-## Configure Environment Variables
-
-The configuration parameters can be specified in the hadoop.env file or as environmental variables for specific services (e.g. namenode, datanode etc.):
-```
-  CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+$ docker --version
+$ docker compose --version
 ```
 
-CORE_CONF corresponds to core-site.xml. fs_defaultFS=hdfs://namenode:8020 will be transformed into:
-```
-  <property><name>fs.defaultFS</name><value>hdfs://namenode:8020</value></property>
-```
-To define dash inside a configuration parameter, use triple underscore, such as YARN_CONF_yarn_log___aggregation___enable=true (yarn-site.xml):
-```
-  <property><name>yarn.log-aggregation-enable</name><value>true</value></property>
-```
+You should correctly view up the version of Docker Desktop on your machine.
 
-The available configurations are:
-* /etc/hadoop/core-site.xml CORE_CONF
-* /etc/hadoop/hdfs-site.xml HDFS_CONF
-* /etc/hadoop/yarn-site.xml YARN_CONF
-* /etc/hadoop/httpfs-site.xml HTTPFS_CONF
-* /etc/hadoop/kms-site.xml KMS_CONF
-* /etc/hadoop/mapred-site.xml  MAPRED_CONF
+#### II. Set Up the Hadoop Cluster on the Docker Desktop
 
-If you need to extend some other configuration file, refer to base/entrypoint.sh bash script.
+1. Use git to download the the Hadoop Docker files from
+   the [Big Data Europe repository](https://github.com/big-data-europe/docker-hadoop)
+
+   ```$ git clone https://github.com/big-data-europe/docker-hadoop.git```
+2. Open the terminal from the folder and enter the following
+
+   ```docker-compose up -d```
+
+   This command will deploy the Hadoop Cluster onto the docker
+
+3. You can also check the running status of the containers inside the docker by the following command
+
+   ```docker ps```
+
+#### III. Transfer the data and the java scripts (not JavaScript) into the Cluster
+
+1. <b>Copy the A1_data.txt file and the Count_model folder to the cloned repo</b>
+2. In the terminal, enter ```docker exec -it namenode bash``` to get into the namenode bash terminal. A similar
+   interface may look like follow
+
+   ```
+   D:\Guelph_Master\CIS6030 Information System\CIS6030_Assignment\CIS6030_Assignment2>docker exec -it namenode bash
+   root@56ab0ee74f48:/#
+   ```
+3. Create a input directory inside the namenode:/tmp by
+   ```
+   cd tmp
+   mkdir input
+   ```
+4. Exit the namenode bash terminal by entering ```exit```
+5. Copy the documents and data to the namenode/tmp by (Please make sure you are no longer inside the namenode bash
+   terminal)
+
+   ```
+   docker cp ./Count_model/WordCount_Q1.jar namenode:/tmp/input
+   docker cp ./Count_model/WordCount_Q2.jar namenode:/tmp/input
+   docker cp A1_data.txt namenode:/tmp
+   ```
+
+IV. Sync the input data to the Hadoop HDFS
+
+1. Get into the namenode bash by  ```docker exec -it namenode bash```
+2. Get into the tmp folder by ```cd tmp```
+3. Create a hdfs directory named input by ```hadoop fs -mkdir -p input```
+4. Place the input files in all the datanodes on HDF by ```hdfs dfs -put ./input/* input```
+
+V. Counting the numbers of strings which has the length equal or more than 25
+1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review the <b>Part IV</b> first and second steps to re-enter into the namenode bash
+2. Run the WordCount_Q1 in the namenode by
+
+   ```
+   hadoop jar WordCount_Q1 org.example.WordCount_Q1 input output
+   ```
+   
+3. When the terminal finish the work, enter ```hdfs dfs -cat output/part-r-00000``` to view the results
+4. The final results should look like as follow
+
+   ```
+   root@56ab0ee74f48:/tmp# hdfs dfs -cat ./output/part-r-00000
+   2022-10-15 01:11:23,350 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+   agriculturalcommunication       1
+   agriculturalcommunications      1
+   compassionateconsideration      1
+   contemporaryenvironmental       1
+   describingextracurricular       3
+   environmentalperspectives       10
+   extracurricularactivities       24
+   extracurricularexperience       2
+   extracurricularleadership       1
+   internationalbaccalaureate      1
+   interpersonalcommunication      2
+   outstandingextracurricular      1
+   participatedsignificantly       5
+   psychologicalcompassionate      2
+   universityextracurricular       6
+   ```
+

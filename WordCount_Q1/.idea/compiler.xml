@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="WordCount_arv" />
+        <module name="WordCount_Q1" />
       </profile>
     </annotationProcessing>
   </component>
