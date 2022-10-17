@@ -28,7 +28,7 @@ public class WordCount_Q1 {
                 String currentKey = itr.nextToken();
 
                 //specify that the target strings to be counted should have more than 25 length
-                if (currentKey.length() >= 25) {
+                if (currentKey.length() > 25) {
                     word.set(currentKey);
                     context.write(word, one);
                 }

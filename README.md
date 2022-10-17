@@ -113,8 +113,29 @@ You should correctly view up the version of Docker Desktop on your machine.
    psychologicalcompassionate      2
    universityextracurricular       6
    ```
+   
+#### II. Counting the numbers of strings which has the length more than 25
+1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review
+   the <b>Part IV</b> first and second steps to re-enter into the namenode bash
+2. Run the WordCount_Q1 in the namenode by
 
-#### II. Counting the numbers of strings which has the length equal or more than 25
+   ```
+   hadoop jar WordCount_Q1_1.jar org.example.WordCount_Q1 input output1_1
+   ```
+
+3. When the terminal finish the work, enter ```hdfs dfs -cat output1_1/part-r-00000``` to view the results
+4. The final results should look like as follows
+   ```
+   2022-10-17 16:35:39,299 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+   agriculturalcommunications      1
+   compassionateconsideration      1
+   internationalbaccalaureate      1
+   interpersonalcommunication      2
+   outstandingextracurricular      1
+   psychologicalcompassionate      2
+   ```
+
+#### III. Counting the numbers of strings which has the length equal or more than 25
 
 1. make sure you are still inside the namenode bash terminal with the route of the ./tmp directory. You may review
    the <b>How To Use - Part IV</b> first and second steps to re-enter into the namenode bash
@@ -131,6 +152,10 @@ You should correctly view up the version of Docker Desktop on your machine.
    2022-10-15 01:19:08,211 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
    Total Numbers of String:        468820
    ```
+
+### When Finished
+1. Leave the namenode bash by entering ```exit```
+2. Shutdown the Hadoop cluster by entering ```docker-compose down```
 
 ### Reference
 
